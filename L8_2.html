@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тюлячкина Мария</title>
+    <style>
+        .error {
+            color: red;
+            margin-left: 10px;
+        }
+        form {
+            line-height: 30px; 
+        }
+        img {
+            width: 100px; 
+        }
+    </style>
+    <script>
+        function validateForm() {
+            var isValid = true;
+            var passport = document.forms["myForm"]["passport"].value;
+            var passportNumber = document.forms["myForm"]["passportNumber"].value;
+            var answerNumber = document.forms["myForm"]["answerNumber"].value;
+            var subject = document.forms["myForm"]["subject"].value;
+            var code = document.forms["myForm"]["code"].value;
+            document.getElementById("passportError").textContent = (passport == "" || passport.length != 4 || !/^\d{4}$/.test(passport)) ? "Введите 4 цифры" : "";
+            document.getElementById("passportNumberError").textContent = (passportNumber == "" || passportNumber.length != 7 || isNaN(passportNumber)) ? "Введите 7 цифр" : "";
+            document.getElementById("answerNumberError").textContent = ""; // Удаление проверки для номера бланка
+            document.getElementById("subjectError").textContent = (subject == "") ? "Выберите предмет" : "";
+            document.getElementById("codeError").textContent = (code != "876564") ? "Код введен не правильно" : "";
+
+            isValid = document.getElementById("passportError").textContent === "" &&
+                      document.getElementById("passportNumberError").textContent === "" &&
+                      document.getElementById("answerNumberError").textContent === "" &&
+                      document.getElementById("subjectError").textContent === "" &&
+                      document.getElementById("codeError").textContent === "";
+            if (isValid) {
+                alert("Данные успешно отправлены!");
+            }
+            return isValid;
+        }
+    </script>
+</head>
+<body>
+    <form name="myForm" onsubmit="return validateForm()" method="post">
+        Серия паспорта: <input type="text" name="passport" oninput="document.getElementById('passportError').textContent = ''"><span id="passportError" class="error">Введите серию паспорта</span><br>
+        Номер паспорта: <input type="text" name="passportNumber" oninput="document.getElementById('passportNumberError').textContent = ''"><span id="passportNumberError" class="error">Введите номер паспорта</span><br>
+        Номер бланка ответа: <input type="text" name="answerNumber"><span id="answerNumberError" class="error">Введите номер бланка ответа</span><br>
+        Предмет: 
+        <select name="subject" oninput="document.getElementById('subjectError').textContent = ''">
+            <option value="">Выберите предмет</option>
+            <option value="Белорусский">Белорусский</option>
+            <option value="Русский">Русский</option>
+            <option value="Математика">Математика</option>
+            <option value="Физика">Физика</option>
+        </select>
+        <span id="subjectError" class="error">Выберите предмет</span><br>
+        <img src="kode.png" alt="kode"><br>
+        Код на картинке: <input type="text" name="code" oninput="document.getElementById('codeError').textContent = ''"><span id="codeError" class="error">Введите код</span><br>
+        <input type="submit" value="Отправить">
+    </form>
+</body>
+</html>

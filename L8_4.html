@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тюлячкина Мария</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="showModal()">Добавить радиоприемник</button>
+    <table id="radioTable">
+        <thead>
+            <tr>
+                <th>Питание</th>
+                <th>Тип</th>
+                <th>Выходная мощность</th>
+                <th>Тип тюнера</th>
+                <th>Модуляция</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Добавить радиоприемник</h2>
+            <form>
+                <label for="power">Питание:</label>
+                <input type="text" id="power" name="power" required>
+                <br>
+                <label for="type">Тип:</label>
+                <input type="text" id="type" name="type" required>
+                <br>
+                <label for="outputPower">Выходная мощность:</label>
+                <input type="text" id="outputPower" name="outputPower" required>
+                <br>
+                <label for="tunerType">Тип тюнера:</label>
+                <input type="text" id="tunerType" name="tunerType" required>
+                <br>
+                <label for="modulation">Модуляция:</label>
+                <input type="text" id="modulation" name="modulation" required>
+                <br>
+                <button type="button" onclick="addRadio()">Добавить</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const modal = document.getElementById('myModal');
+        const modalBtn = document.querySelector('.modal-content button');
+        const closeBtn = document.querySelector('.close');
+        let radios = [];
+        function showModal() {
+            modal.style.display = 'block';
+        }
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+        function addRadio() {
+            const power = document.getElementById('power').value;
+            const type = document.getElementById('type').value;
+            const outputPower = document.getElementById('outputPower').value;
+            const tunerType = document.getElementById('tunerType').value;
+            const modulation = document.getElementById('modulation').value;
+
+            radios.push({ power, type, outputPower, tunerType, modulation });
+            displayRadios();
+            closeModal();
+        }
+        function displayRadios() {
+            const tableBody = document.querySelector('#radioTable tbody');
+            tableBody.innerHTML = '';
+            radios.forEach((radio, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${radio.power}</td>
+                    <td>${radio.type}</td>
+                    <td>${radio.outputPower}</td>
+                    <td>${radio.tunerType}</td>
+                    <td>${radio.modulation}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
